@@ -8,9 +8,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3050/api/users
 
-###
 
 POST http://localhost:3050/api/users/login
 Content-Type: application/json
@@ -18,4 +16,27 @@ Content-Type: application/json
 {
     "username": "pholawat5",
     "password": "password"
+}
+
+###
+
+GET http://localhost:3050/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBob2xhd2F0NSIsInBhc3N3b3JkIjoiJDJiJDEwJE1LdXJ2VkNFR2xtSml4TWwuQjJGcHV4T2paMGtIUWYyUGhsbllOZW14QzZieU90NmtMSnZtIiwiaWF0IjoxNjE5MDE1NTAxLCJleHAiOjE2MTkwMTU1MTZ9.I9mv0ODb8eLQcHqIpTJ9SnFCVgU4SSMQn_yGqaYWNhs
+###
+
+POST http://localhost:3050/api/token
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBob2xhd2F0NSIsInBhc3N3b3JkIjoiJDJiJDEwJE1LdXJ2VkNFR2xtSml4TWwuQjJGcHV4T2paMGtIUWYyUGhsbllOZW14QzZieU90NmtMSnZtIiwiaWF0IjoxNjE5MDE1NTUyfQ.0Y7vNt7MNX0soRMp3ngA43R8HzG6YsFxlElDnX_HG48"
+}
+
+
+###
+
+POST http://localhost:3050/api/users/logout
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBob2xhd2F0NSIsInBhc3N3b3JkIjoiJDJiJDEwJE1LdXJ2VkNFR2xtSml4TWwuQjJGcHV4T2paMGtIUWYyUGhsbllOZW14QzZieU90NmtMSnZtIiwiaWF0IjoxNjE5MDE1NTUyfQ.0Y7vNt7MNX0soRMp3ngA43R8HzG6YsFxlElDnX_HG48"
 }
