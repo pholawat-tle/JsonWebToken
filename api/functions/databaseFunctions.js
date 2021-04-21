@@ -1,5 +1,6 @@
-const mariadb = require('mariadb');
 const bcrypt = require('bcrypt');
+const mariadb = require('mariadb');
+const jwtFunctions = require('./jwtFunctions');
 const pool = mariadb.createPool({
     host: 'db',
     user: 'root',
@@ -120,12 +121,25 @@ function getUserByName(username) {
     });
 }
 
+async function getMe(req, res) {
+    if (req.user) res.send(req.user);
+    else res.status(400).send();
+}
+
 async function logIn({ body: { username, password } }, res) {
     let user = await getUserByName(username);
     if (user) {
         try {
             if (await bcrypt.compare(password, user.password)) {
-                res.send('Success!');
+                const access_token = jwtFunctions.generateAccessToken({
+                    username,
+                    password: user.password,
+                });
+                const refresh_token = jwtFunctions.generateRefreshToken({
+                    username,
+                    password: user.password,
+                });
+                res.send({ access_token, refresh_token });
             } else {
                 res.send('Try Again!');
             }
@@ -138,9 +152,16 @@ async function logIn({ body: { username, password } }, res) {
     }
 }
 
+async function logOut({ body: { token } }, res) {
+    jwtFunctions.removeToken(token);
+    res.status(204).send();
+}
+
 module.exports = {
     createUser,
     getUsers,
+    getMe,
     logIn,
+    logOut,
     startDB,
 };
