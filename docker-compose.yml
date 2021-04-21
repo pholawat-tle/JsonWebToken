@@ -1,0 +1,41 @@
+version: '3'
+services:
+    nginx:
+        depends_on:
+            - api
+            - phpmyadmin
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ./nginx
+        ports:
+            - '3050:80'
+    api:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ./api
+        volumes:
+            - /app/node_modules
+            - ./api:/app
+    db:
+        logging:
+            driver: none
+        image: mariadb:10.5.9
+        restart: always
+        volumes:
+            - ./mariaDB:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: pholawat555
+            MYSQL_DATABASE: authDB
+    phpmyadmin:
+        logging:
+            driver: none
+        image: phpmyadmin/phpmyadmin:5.1.0
+        depends_on:
+            - db
+        restart: always
+        environment:
+            - PMA_HOST=db
+            - PMA_PORT=3306
+            - PMA_ABSOLUTE_URI=http://localhost/pma
